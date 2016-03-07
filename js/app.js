@@ -44,7 +44,8 @@ app.controller('UserController', function(StatusService){
   function _setStatus(){
     var _newStatus = {
       user: vm.user,
-      message: vm.message
+      message: vm.message,
+      date: vm.date
     };
 
     console.log('Sending user status');
@@ -59,6 +60,7 @@ app.controller('UserController', function(StatusService){
   function _resetForm(){
     vm.user = '';
     vm.message = '';
+    vm.date = new Date();
   }
 });
 
