@@ -9,19 +9,23 @@ app.service('StatusService', function() {
   var service = this;
 
   var _statuses = [];
+  var _userStatuses = [];
 
   service.addStatus = function(newStatus){
-    if(!!newStatus.user){
+    if (!!newStatus.user && !!newStatus.message){
       _statuses.push(newStatus);
+
+      _userStatuses.splice(0);
+      angular.copy(_statuses, _userStatuses);
     }else{
-      alert('User must be defined!');
+      alert('User and message must be defined!');
     }
 
   }
 
   //displaying
   service.getStatuses = function () {
-    return _statuses;
+    return _userStatuses;
   }
 
 });
