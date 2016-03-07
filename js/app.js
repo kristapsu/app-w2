@@ -4,24 +4,34 @@ var app = angular.module('firstApp', []);
 var _statuses = [];
 
 app.controller('UserController', function(){
+
+  //idea of what should happen
   var vm = this;
 
-  vm.user = '';
-  vm.message = '';
+  __resetForm();
 
-  vm.setStatus = function() {
-    var _userToSend = {
+  vm.setStatus = _setStatus;
+
+  //implemitaiton
+
+  function _setStatus(){
+    var _newStatus = {
       user: vm.user,
       message: vm.message
     };
 
     console.log('Sending user status');
-    console.log(JSON.stringify(_userToSend));
-    // rootscope is everything inside ng, you use rootscope to communicate between differenct scopes
-    // $rootScope.$broadcast('set-status', _userToSend);
+    console.log(JSON.stringify(_newStatus));
 
-    _statuses.push(_userToSend);
+    _statuses.push(_newStatus);
 
+    __resetForm();
+
+  }
+
+  function __resetForm(){
+    vm.user = '';
+    vm.message = '';
   }
 
 });

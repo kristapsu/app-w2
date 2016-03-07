@@ -5,16 +5,22 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <form name="statusForm" ng-controller="UserController as userCtrl" ng-submit="userCtrl.setStatus()">
-      <input type="text" ng-model="userCtrl.user" placeholder="name">
-      <input type="text" ng-model="userCtrl.message" placeholder="Sveiki!">
+      <form name="statusForm" ng-controller="UserController as userCtrl" ng-submit="userCtrl.setStatus()">
+      <!-- required so that user needs to input -->
+      <input type="text" required ng-model="userCtrl.user" placeholder="name">
+      <input type="text" required ng-model="userCtrl.message" placeholder="Sveiki!">
       <button type="submit">Set Status</button>
     <form>
     <hr>
-    <div ng-controller="StatusController as status">
-      <pre>
-      {{status.statuses}}
-      </pre>
+    <div ng-controller="StatusController as statusCtrl">
+      <section ng-repeat="status in statusCtrl.statuses">
+        <header>
+          <h4>{{status.user}}</h4>
+        </header>
+        <br>
+        <div>{{status.message}}</div>
+        <hr/>
+      </section>
     </div>
     <script src="bower_components/angular/angular.js"></script>
     <script src="js/app.js"></script>
