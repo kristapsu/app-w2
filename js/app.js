@@ -12,7 +12,8 @@ app.service('StatusService', function() {
   var _userStatuses = [];
 
   service.addStatus = function(newStatus){
-    if (!!newStatus.user && !!newStatus.message){
+    // check if user and message exists
+    if (!_.isEmpty(newStatus.user) && !_.isEmpty(newStatus.message)){
       _statuses.push(newStatus);
 
       _userStatuses.splice(0);
