@@ -1,14 +1,36 @@
 var app = angular.module('firstApp', []);
 
-// global variable, place to store date (bad thing - exposed to user who uses web browser)
-var _statuses = [];
+// global variable, place to store data (bad thing - exposed to user who uses web browser)
+// var _statuses = [];
 
-app.controller('UserController', function(){
+// Singleton - object is itionalised once, and it stays forever, in angular it's called SERVICE
 
+app.service('StatusService', function() {
+  var service = this;
+
+  var _statuses = [];
+
+  service.addStatus = function(newStatus){
+    if(!!newStatus.user){
+      _statuses.push(newStatus);
+    }else{
+      alert('User must be defined!');
+    }
+
+  }
+
+  //displaying
+  service.getStatuses = function () {
+    return _statuses;
+  }
+
+});
+
+app.controller('UserController', function(StatusService){
   //idea of what should happen
   var vm = this;
 
-  __resetForm();
+  _resetForm();
 
   vm.setStatus = _setStatus;
 
@@ -23,24 +45,22 @@ app.controller('UserController', function(){
     console.log('Sending user status');
     console.log(JSON.stringify(_newStatus));
 
-    _statuses.push(_newStatus);
+    StatusService.addStatus(_newStatus);
 
-    __resetForm();
+    _resetForm();
 
-  }
+  };
 
-  function __resetForm(){
+  function _resetForm(){
     vm.user = '';
     vm.message = '';
   }
-
 });
 
 // RootScope - scope for all app, that can be shared
-app.controller('StatusController', function(){
-
+app.controller('StatusController', function(StatusService){
   var vm = this;
 
-  vm.statuses = _statuses;
+  vm.statuses = StatusService.getStatuses();
 
 });
