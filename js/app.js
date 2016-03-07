@@ -1,6 +1,9 @@
 var app = angular.module('firstApp', []);
 
-app.controller('UserController', function($rootScope){
+// global variable, place to store date (bad thing - exposed to user who uses web browser)
+var _statuses = [];
+
+app.controller('UserController', function(){
   var vm = this;
 
   vm.user = '';
@@ -16,15 +19,18 @@ app.controller('UserController', function($rootScope){
     console.log(JSON.stringify(_userToSend));
     // rootscope is everything inside ng, you use rootscope to communicate between differenct scopes
     // $rootScope.$broadcast('set-status', _userToSend);
+
+    _statuses.push(_userToSend);
+
   }
 
 });
 
 // RootScope - scope for all app, that can be shared
-app.controller('StatusController', function($rootScope){
+app.controller('StatusController', function(){
 
   var vm = this;
 
-  vm.statuses = [];
+  vm.statuses = _statuses;
 
 });

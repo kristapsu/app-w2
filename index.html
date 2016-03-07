@@ -11,6 +11,11 @@
       <button type="submit">Set Status</button>
     <form>
     <hr>
+    <div ng-controller="StatusController as status">
+      <pre>
+      {{status.statuses}}
+      </pre>
+    </div>
     <script src="bower_components/angular/angular.js"></script>
     <script src="js/app.js"></script>
   </body>
