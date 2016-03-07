@@ -16,6 +16,7 @@ app.service('StatusService', function() {
     if (!_.isEmpty(newStatus.user) && !_.isEmpty(newStatus.message)){
       _statuses.push(newStatus);
 
+      // old statuses
       _userStatuses.splice(0);
       angular.copy(_statuses, _userStatuses);
     }else{
