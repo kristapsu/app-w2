@@ -73,7 +73,22 @@ app.controller('MainController', function(UserService) {
   vm.hasUser = UserService.hasUser;
 });
 
-app.controller('UserController', function(StatusService){
+
+app.controller('LoginController', function(UserService){
+
+  var vm = this;
+
+  vm.username = '';
+
+  vm.login = _login;
+
+  function _login() {
+      UserService.setUser(vm.username);
+  }
+
+});
+
+app.controller('UserController', function(UserService, StatusService){
   //idea of what should happen
   var vm = this;
 
@@ -85,7 +100,7 @@ app.controller('UserController', function(StatusService){
 
   function _setStatus(){
     var _newStatus = {
-      user: vm.user,
+      user: UserService.getUsername(),
       message: vm.message,
       date: vm.date
     };
@@ -100,7 +115,6 @@ app.controller('UserController', function(StatusService){
   };
 
   function _resetForm(){
-    vm.user = '';
     vm.message = '';
     vm.date = new Date();
   }

@@ -16,15 +16,21 @@
         </div>
     </nav>
 
-    <div id="guest-space" class="container">
+    <div id="guest-space" class="container" ng-if="!mainCtrl.hasUser()" ng-controller="LoginController as loginCtrl">
       <p>LOGIN FIRST</p>
+      <form name="userForm" ng-submit="loginCtrl.login()">
+        <div class="form-group">
+          <input class="form-control" type="text" required autofocus ng-model="loginCtrl.username" placeholder="Username">
+          <input class="form-control" type="password" placeholder="Password">
+        </div>
+        <button class="btn btn-default" type="submit">LOGIN</button>
+      </form>
     </div>
     <!-- ng-if="mainCtrl.hasUser()" will work if it has user -->
     <div id="user-space" class="container" ng-if="mainCtrl.hasUser()" ng-controller="UserController as userCtrl">
       <form name="statusForm" ng-submit="userCtrl.setStatus()">
-        <!-- required so that user needs to input -->
+        <!-- "required" input field must be filled-->
         <div class="form-group">
-          <input class="form-control" type="text" required ng-model="userCtrl.user" placeholder="name">
           <input class="form-control" type="text" required ng-model="userCtrl.message" placeholder="Sveiki!">
           <input class="form-control" type="date" ng-model="userCtrl.date" required ng-model="userCtrl.message" placeholder="Sveiki!">
         </div>
