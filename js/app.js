@@ -71,6 +71,7 @@ app.controller('MainController', function(UserService) {
   var vm = this;
 
   vm.hasUser = UserService.hasUser;
+  vm.getUsername = UserService.getUsername;
 });
 
 
