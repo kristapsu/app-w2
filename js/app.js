@@ -9,8 +9,11 @@ app.service('UserService', function(){
 
   var service = this;
 
+  var USERNAME_KEY = 'username';
+
   var _user = {
-    username: undefined,
+    // localStorage is a browser stuff
+    username: localStorage.getItem(USERNAME_KEY),
     //TODO: implement password support in the future
     password: undefined
   };
@@ -22,14 +25,21 @@ app.service('UserService', function(){
 
   function _setUser(username) {
     _user.username = username;
+    // if username is null remove stored usernames or else set it
+    if(_.isNull(username)) {
+      localStorage.removeItem(USERNAME_KEY);
+    } else {
+      localStorage.setItem(USERNAME_KEY, username);
+    }
   }
 
   function _removeUser() {
-    _setUser(undefined);
+    _setUser(null);
   }
 
   function _hasUser (){
-    return !_.isUndefined(_getUsername())
+    // we set username to Null ourselves
+    return !_.isNull(_getUsername())
   }
 
   function _getUsername() {
@@ -72,6 +82,7 @@ app.controller('MainController', function(UserService) {
 
   vm.hasUser = UserService.hasUser;
   vm.getUsername = UserService.getUsername;
+  vm.removeUser = UserService.removeUser;
 });
 
 

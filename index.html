@@ -15,6 +15,7 @@
               <span>MyFacebook</span>
               <span ng-if="mainCtrl.hasUser()"> - {{mainCtrl.getUsername()}}</span>
             </a>
+            <button type="button" ng-if="mainCtrl.hasUser()" ng-click="mainCtrl.removeUser()" class="btn btn-warning navbar-btn">Logout</button>
           </div>
         </div>
     </nav>
