@@ -5,6 +5,41 @@ var app = angular.module('firstApp', []);
 
 // Singleton - object is itionalised once, and it stays forever, in angular it's called SERVICE
 
+app.service('UserService', function(){
+
+  var service = this;
+
+  var _user = {
+    username: undefined,
+    //TODO: implement password support in the future
+    password: undefined
+  };
+
+  service.setUser = _setUser;
+  service.removeUser = _removeUser;
+  service.getUsername = _getUsername;
+  service.hasUser = _hasUser;
+
+  function _setUser(username) {
+    _user.username = username;
+  }
+
+  function _removeUser() {
+    _setUser(undefined);
+  }
+
+  function _hasUser (){
+    return !_.isUndefined(_getUsername())
+  }
+
+  function _getUsername() {
+    return _user.username;
+  }
+
+});
+
+
+
 app.service('StatusService', function() {
   var service = this;
 
@@ -30,6 +65,12 @@ app.service('StatusService', function() {
     return _userStatuses;
   }
 
+});
+
+app.controller('MainController', function(UserService) {
+  var vm = this;
+
+  vm.hasUser = UserService.hasUser;
 });
 
 app.controller('UserController', function(StatusService){

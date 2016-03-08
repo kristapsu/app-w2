@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
   </head>
-  <body>
+  <body ng-controller="MainController as mainCtrl">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
@@ -16,8 +16,12 @@
         </div>
     </nav>
 
-    <div class="container">
-      <form name="statusForm" ng-controller="UserController as userCtrl" ng-submit="userCtrl.setStatus()">
+    <div id="guest-space" class="container">
+      <p>LOGIN FIRST</p>
+    </div>
+    <!-- ng-if="mainCtrl.hasUser()" will work if it has user -->
+    <div id="user-space" class="container" ng-if="mainCtrl.hasUser()" ng-controller="UserController as userCtrl">
+      <form name="statusForm" ng-submit="userCtrl.setStatus()">
         <!-- required so that user needs to input -->
         <div class="form-group">
           <input class="form-control" type="text" required ng-model="userCtrl.user" placeholder="name">
