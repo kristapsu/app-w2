@@ -50,32 +50,117 @@ app.service('UserService', function(){
 
 
 
-app.service('StatusService', function() {
+
+
+
+
+app.service('StatusService', function($http, $timeout) {
   var service = this;
+  // localhost/8080
+
+  var SERVER_URL = 'http://10.0.1.86:8080/statuses';
 
   var _statuses = [];
   var _userStatuses = [];
+  //list of all users using the app
+  var _users = [];
 
-  service.addStatus = function(newStatus){
+  //displaying, functions that can be used outside of this server
+  service.getStatuses = _getStatuses;
+  service.addStatus = _addStatus;
+  service.getUsers = _getUsers;
+
+  init();
+
+  function init(){
+    // These are "PROMISES", http is going to do call, and it happens only when we get data and promise is forfilled
+    var _getRequest = {
+      method: 'GET',
+      url: SERVER_URL
+    };
+
+    $http(_getRequest).then(function(res){
+      _statuses = res.data;
+
+      // ??? what did this part do?
+      _updateUsers();
+
+      $timeout(init, 1500);
+    });
+  }
+
+  function _getStatuses() {
+    return _userStatuses;
+  }
+
+  function _addStatus(newStatus){
     // check if user and message exists
     if (!_.isEmpty(newStatus.user) && !_.isEmpty(newStatus.message)){
-      _statuses.push(newStatus);
 
-      // old statuses
-      _userStatuses.splice(0);
-      angular.copy(_statuses, _userStatuses);
+      var _postRequest = {
+        method: 'POST',
+        url: SERVER_URL,
+        data: newStatus
+      };
+
+      $http(_postRequest).then(_updateStatuses);
+
+      function _updateStatuses(res) {
+        if(!!res){
+          _statuses.push(res.data);
+
+          // old statuses update
+          _updateUsers();
+        }
+      }
+
     }else{
-      alert('User and message must be defined!');
+      console.log('User and message must be defined!');
     }
 
   }
 
-  //displaying
-  service.getStatuses = function () {
-    return _userStatuses;
+  function _getUsers(){
+    return _users;
+  }
+
+  function _updateUsers() {
+    _userStatuses.splice(0);
+    var _sortedStatuses = _.sortBy(_statuses, 'date');
+    angular.copy(_sortedStatuses.reverse(), _userStatuses);
+
+    //after users update,d remove list of current users and copy
+    _users.splice(0);
+    var userNames = _.uniq(_.map(_statuses, 'user'));
+
+    _.each(userNames, function getUserStatus(userName){
+      var newUser = {
+        name: userName
+      };
+
+      var userStatus = _.find(_userStatuses, function(status){
+        return status.user === userName;
+      });
+
+      if (!!userName && !!userStatus) {
+        newUser.date = userStatus.date;
+        newUser.message = userStatus.message;
+
+        _users.push(newUser);
+      }
+
+    });
   }
 
 });
+
+
+
+
+
+
+
+
 
 app.controller('MainController', function(UserService) {
   var vm = this;
@@ -114,7 +199,8 @@ app.controller('UserController', function(UserService, StatusService){
     var _newStatus = {
       user: UserService.getUsername(),
       message: vm.message,
-      date: vm.date
+      //date: vm.date (To set date)
+      date: new Date()
     };
 
     console.log('Sending user status');
@@ -128,7 +214,7 @@ app.controller('UserController', function(UserService, StatusService){
 
   function _resetForm(){
     vm.message = '';
-    vm.date = new Date();
+    //vm.date = new Date(); (To set date)
   }
 });
 
@@ -136,6 +222,6 @@ app.controller('UserController', function(UserService, StatusService){
 app.controller('StatusController', function(StatusService){
   var vm = this;
 
-  vm.statuses = StatusService.getStatuses();
+  vm.users = StatusService.getUsers();
 
 });

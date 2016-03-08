@@ -36,7 +36,7 @@
         <!-- "required" input field must be filled-->
         <div class="form-group">
           <input class="form-control" type="text" required ng-model="userCtrl.message" placeholder="Sveiki!">
-          <input class="form-control" type="date" ng-model="userCtrl.date" required ng-model="userCtrl.message" placeholder="Sveiki!">
+          <!-- <input class="form-control" type="date" ng-model="userCtrl.date" required ng-model="userCtrl.message" placeholder="Sveiki!">  (To set date)-->
         </div>
         <button class="btn btn-default" type="submit">Set Status</button>
       <form>
@@ -44,14 +44,17 @@
 
       <!-- <div ng-repeat="fruit in fruit_array">{{element}}</div> -->
       <article style="float: left;" ng-controller="StatusController as statusCtrl">
-        <section ng-repeat="status in statusCtrl.statuses">
+        <!-- | orderBy:'-date' we pipe it to sort order by date -->
+        <!-- "track by" - asigns unique field to elements, that binds them togeather -->
+        <!-- old one <section ng-repeat="user in statusCtrl.statuses | orderBy:'-date' track by status.id"> -->
+        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderBy:'-date' track by user.name">
           <header>
-            <h4>{{status.user}}</h4>
+            <h4>{{user.name}}</h4>
             <!-- add filters "|", just like piping in unix console -->
-            <span>{{status.date | date}}</span>
+            <span>{{user.date | date}}</span>
           </header>
           <br>
-          <div>{{status.message}}</div>
+          <div>{{user.message}}</div>
           <hr/>
         </section>
       </article>
@@ -78,6 +81,6 @@
 
     <script src="bower_components/lodash/dist/lodash.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="js/app.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
