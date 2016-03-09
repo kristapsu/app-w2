@@ -47,7 +47,7 @@
         <!-- | orderBy:'-date' we pipe it to sort order by date -->
         <!-- "track by" - asigns unique field to elements, that binds them togeather -->
         <!-- old one <section ng-repeat="user in statusCtrl.statuses | orderBy:'-date' track by status.id"> -->
-        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderBy:'-date' track by user.name">
+        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderUsers:'statusList' track by user.name">
           <header>
             <h4>{{user.name}}</h4>
             <!-- add filters "|", just like piping in unix console -->
