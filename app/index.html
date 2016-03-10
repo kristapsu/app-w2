@@ -4,21 +4,20 @@
   <head>
     <meta charset="utf-8">
     <title>site</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
   </head>
   <body ng-controller="MainController as mainCtrl">
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">
+    <md-content>
+      <md-toolbar>
+          <h1>
+            <a href="#">
               <span>MyFacebook</span>
               <span ng-if="mainCtrl.hasUser()"> - {{mainCtrl.getUsername()}}</span>
             </a>
-            <button type="button" ng-if="mainCtrl.hasUser()" ng-click="mainCtrl.removeUser()" class="btn btn-warning navbar-btn">Logout</button>
-          </div>
-        </div>
-    </nav>
+          </h1>
+          <md-button type="button" ng-if="mainCtrl.hasUser()" ng-click="mainCtrl.removeUser()">Logout</md-button>
+      </md-toolbar>
+    <md-content>
 
     <div id="guest-space" class="container" ng-if="!mainCtrl.hasUser()" ng-controller="LoginController as loginCtrl">
       <p>LOGIN FIRST</p>
@@ -72,15 +71,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-    <script src="bower_components/lodash/dist/lodash.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="app.js"></script>
+    <script src="bundle.js"></script>
   </body>
 </html>

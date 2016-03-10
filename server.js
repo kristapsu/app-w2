@@ -31,7 +31,8 @@ app.post('/statuses', function(req, res) {
     user: _.toString(_.get(req.body, 'user')).trim(),
     message: _parseMessage(_.get(req.body, 'message')),
     date: new Date(),
-    sendDate: new Date(_.get(req.body, 'date'))
+    sendDate: new Date(_.get(req.body, 'date')),
+    ip: req.connection.remoteAdress
   };
 
   if(_validateStatus(newStatus)) {

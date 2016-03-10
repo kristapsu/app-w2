@@ -1,4 +1,14 @@
-var app = angular.module('firstApp', []);
+import 'angular-material/angular-material.css';
+
+import 'loadash';
+import 'angular';
+import angularMaterial from 'angular-material';
+
+require('./app.css');
+
+var app = angular.module('firstApp', [
+  angularMaterial
+]);
 
 // global variable, place to store data (bad thing - exposed to user who uses web browser)
 // var _statuses = [];
@@ -47,11 +57,6 @@ app.service('UserService', function(){
   }
 
 });
-
-
-
-
-
 
 
 app.service('StatusService', function($http, $timeout) {
@@ -143,15 +148,10 @@ app.service('StatusService', function($http, $timeout) {
 });
 
 
-
-
-
-
-
-
-
 app.controller('MainController', function(UserService) {
   var vm = this;
+
+  console.log('Application in launched');
 
   vm.hasUser = UserService.hasUser;
   vm.getUsername = UserService.getUsername;
@@ -231,7 +231,7 @@ app.filter('orderUsers', function(){
       //FIXME: difest loop with no name
       return newList;
     }
-    
+
     function generateNewUser(status, name){
       var newUser = {
         name: name
