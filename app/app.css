@@ -1,3 +1,15 @@
-body {
-  background: yellow;
+md-list-item {
+    opacity: 0.5;
+    transition: background 2s, opacity 3s;
+}
+
+md-list-item.recent {
+    opacity: 1.0;
+    background: yellow;
+    /*FIXME: probably workaround for references issue on lists*/
+    transition: background 0s, opacity 0s;
+}
+
+.user-link {
+    cursor: pointer;
 }

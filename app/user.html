@@ -1,20 +1,43 @@
-<md-content id="user-space">
-    <form name="statusForm"
-          ng-submit="userCtrl.setStatus()">
-        <div class="form-group">
-            <input class="form-control" type="text" required ng-model="userCtrl.message" placeholder="E.g. 'HELLO FRIENDS!'"/>
-        </div>
-        <button class="btn btn-default" type="submit">Set status</button>
-    </form>
-    <hr/>
-    <article ng-controller="StatusController as statusCtrl">
-        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderUsers:'statusList' track by user.name">
-            <header>
-                <h4>{{user.name}}</h4>
-                <span>{{user.date | date}}</span>
-            </header>
-            <div>{{user.message}}</div>
-            <hr>
-        </section>
-    </article>
-</md-content>
+<article id="user-space">
+    <md-content layout-padding>
+        <md-whiteframe class="md-whiteframe-1dp"
+                       layout>
+            <form layout="column"
+                  flex
+                  name="statusForm"
+                  ng-submit="userCtrl.setStatus()">
+                <md-input-container flex class="md-block">
+                    <input type="text"
+                           md-autofocus
+                           flex
+                           required
+                           ng-model="userCtrl.message"
+                           placeholder="E.g. 'HELLO FRIENDS!'"/>
+                </md-input-container>
+                <div flex
+                     class="md-block"
+                     layout="row">
+                    <md-button class="md-raised md-primary"
+                               type="submit">Set status
+                    </md-button>
+                    <md-button class="md-raised"
+                               type="reset">
+                        Clear
+                    </md-button>
+                </div>
+            </form>
+        </md-whiteframe>
+        <md-list ng-controller="StatusController as statusCtrl">
+            <md-list-item class="md-3-line"
+                          ng-class="{recent: statusCtrl.isRecent(user)}"
+                          ng-repeat="user in statusCtrl.users | orderUsers:'statusList' track by user.name">
+                <div class="md-list-item-text" layout="column">
+                    <h3 class="user-link" ng-click="statusCtrl.showHistory(user)">{{user.name}}</h3>
+                    <h4>{{user.date | date:'MMMM dd yyyy, HH:mm:ss'}}</h4>
+                    <p>{{user.message}}</p>
+                </div>
+                <md-divider></md-divider>
+            </md-list-item>
+        </md-list>
+    </md-content>
+</article>

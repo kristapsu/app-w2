@@ -1,0 +1,51 @@
+<md-dialog>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{historyCtrl.username}}</h2>
+            <span flex></span>
+            <md-button ng-click="historyCtrl.refresh()">Refresh</md-button>
+            <md-button ng-click="historyCtrl.close()">Close</md-button>
+        </div>
+    </md-toolbar>
+    <md-content layout-padding>
+      <md-list>
+        <md-list-item ng-repeat="status in historyCtrl.statuses">
+          <div class="md-list-item-text" flex layout="row">
+            <p><span>{{$index+1}}. </span>{{status.message}}</p>
+            <span flex></span>
+            <p>{{status.date | date: 'HH:mm:ss'}}</p>
+          </div>
+      </md-list>
+    </md-content>
+</md-dialog>
+
+<!--
+https://material.angularjs.org/latest/demo/list
+<md-dialog>
+  <md-toolbar layout="row" class="md-hue-2">
+    <div class="md-toolbar-tools">
+      <h2>{{historyCtrl.username}}</h2>
+      <span flex></span>
+      <md-button ng-click="historyCtrl.refresh()">Refresh</md-button>
+      <md-button ng-click="historyCtrl.close()">Close</md-button>
+    </div>
+  </md-toolbar>
+  <md-content layout-padding>
+    <md-list flex>
+      <md-subheader class="md-no-sticky">Name</md-subheader>
+      <md-list-item flex-gt-sm="50" ng-repeat="status in historyCtrl.statuses">
+        <div class="md-list-item-text" layout="row">
+          <p><span>{{$index+1}}. </span>{{status.message}}</p>
+        </div>
+      </md-list-item>
+      <md-divider ></md-divider>
+      <md-subheader class="md-no-sticky">Time</md-subheader>
+      <md-list-item flex-gt-sm="50" ng-repeat="status in historyCtrl.statuses">
+        <div class="md-list-item-text" layout="row">
+          <p>{{status.date | date: 'HH:mm:ss'}}</p>
+        </div>
+      </md-list-item>
+    </md-list>
+  </md-content>
+</md-dialog>
+-->

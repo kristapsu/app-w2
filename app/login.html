@@ -1,16 +1,26 @@
-<md-content id="guest-space">
-    <form name="userForm" ng-submit="loginCtrl.login()">
-        <div class="form-group">
-            <input class="form-control"
-                   type="text"
-                   required
-                   autofocus
-                   ng-model="loginCtrl.username"
-                   placeholder="Username"/>
-            <input class="form-control"
-                   type="password"
-                   placeholder="Password"/>
-        </div>
-        <md-button type="submit">Login</md-button>
-    </form>
-</md-content>
+<article id="guest-space">
+    <md-content layout="row" layout-padding>
+        <form flex name="userForm" ng-submit="loginCtrl.login()">
+            <div layout="column">
+                <div>
+                    <md-input-container class="md-block">
+                        <input type="text"
+                               required
+                               md-autofocus
+                               ng-model="loginCtrl.username"
+                               placeholder="Username">
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <input type="password"
+                               ng-model="loginCtrl.password"
+                               placeholder="Password">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-button type="submit"
+                    class="md-raised md-primary">Login</md-button>
+                </div>
+            </div>
+        </form>
+    </md-content>
+</article>
