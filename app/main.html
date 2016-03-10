@@ -1,0 +1,12 @@
+<article>
+  <md-content>
+    <md-toolbar>
+      <h2>
+        <span>MyFacebook</span>
+        <span ng-if="mainCtrl.hasUser()"> - {{mainCtrl.getUsername()}}</span>
+      </h2>
+      <md-button type="button" ng-if="mainCtrl.hasUser()" ng-click="mainCtrl.logout()">Logout</md-button>
+    </md-toolbar>
+  </md-content>
+  <ui-view></ui-view>
+</article>

@@ -1,14 +1,62 @@
 import 'angular-material/angular-material.css';
 
-import 'loadash';
+//basic libaries
+import 'lodash';
 import 'angular';
-import angularMaterial from 'angular-material';
 
-require('./app.css');
+//addition libaries
+import angularMaterial from 'angular-material';
+import uiRouter from 'ui-router';
+
+import './app.css';
 
 var app = angular.module('firstApp', [
+  uiRouter,
   angularMaterial
 ]);
+
+// specify configuration for app, before it is inalitized
+// prepare state for services and controllers to be initialised
+app.config(function($stateProvider, STATES){
+  $stateProvider
+      .state(STATES.MAIN, {
+        abstract: true,
+        // url: '#/', ==== http://localhost:8090/#/
+        // url: '', === http://localhost:8090/webpack-dev-server/
+        url: '',
+        template: require('./main.html'),
+        controller: 'MainController',
+        controllerAs: 'mainCtrl'
+      })
+      .state(STATES.LOGIN, {
+        template: require('./login.html'),
+        controller: 'LoginController',
+        controllerAs: 'loginCtrl'
+      })
+      .state(STATES.USER, {
+        template: require('./user.html'),
+        controller: 'UserController',
+        controllerAs: 'userCtrl'
+      });
+});
+
+app.constant('STATES', {
+  MAIN: 'main',
+  LOGIN: 'main.login',
+  USER: 'main.user'
+});
+
+//Specify whayt happens when we run our app
+app.run(function($state, UserService, STATES) {
+  if (UserService.hasUser()){
+    //go to status
+    $state.go(STATES.USER);
+  } else {
+    //go to login
+    $state.go(STATES.LOGIN);
+  }
+});
+
 
 // global variable, place to store data (bad thing - exposed to user who uses web browser)
 // var _statuses = [];
@@ -38,13 +86,15 @@ app.service('UserService', function(){
     // if username is null remove stored usernames or else set it
     if(_.isNull(username)) {
       localStorage.removeItem(USERNAME_KEY);
+      return false;
     } else {
       localStorage.setItem(USERNAME_KEY, username);
+      return true;
     }
   }
 
   function _removeUser() {
-    _setUser(null);
+    return !_setUser(null);
   }
 
   function _hasUser (){
@@ -58,7 +108,7 @@ app.service('UserService', function(){
 
 });
 
-
+// looks for timeout provider
 app.service('StatusService', function($http, $timeout) {
   var service = this;
   // localhost/8080
@@ -148,18 +198,26 @@ app.service('StatusService', function($http, $timeout) {
 });
 
 
-app.controller('MainController', function(UserService) {
+app.controller('MainController', function($state, UserService, STATES) {
   var vm = this;
 
   console.log('Application in launched');
 
   vm.hasUser = UserService.hasUser;
   vm.getUsername = UserService.getUsername;
-  vm.removeUser = UserService.removeUser;
+  vm.logout = function () {
+    console.log('Will try to logout.');
+    if (UserService.removeUser()) {
+        console.log('User removed, moving to login.');
+        $state.go(STATES.LOGIN);
+    } else {
+        console.log('Logout failed.');
+    }
+  };
 });
 
 
-app.controller('LoginController', function(UserService){
+app.controller('LoginController', function($state, UserService, STATES){
 
   var vm = this;
 
@@ -168,9 +226,10 @@ app.controller('LoginController', function(UserService){
   vm.login = _login;
 
   function _login() {
-      UserService.setUser(vm.username);
+      if (UserService.setUser(vm.username)){
+          $state.go(STATES.USER);
+      }
   }
-
 });
 
 app.controller('UserController', function(UserService, StatusService){

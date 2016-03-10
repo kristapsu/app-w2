@@ -28,7 +28,9 @@
     "cors": "^2.7.1",
     "css-loader": "^0.23.1",
     "express": "^4.13.4",
+    "html-loader": "^0.4.3",
     "style-loader": "^0.13.0",
+    "ui-router": "^1.0.0-alpha0",
     "webpack": "^1.12.14"
   }
 }

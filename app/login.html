@@ -1,0 +1,16 @@
+<md-content id="guest-space">
+    <form name="userForm" ng-submit="loginCtrl.login()">
+        <div class="form-group">
+            <input class="form-control"
+                   type="text"
+                   required
+                   autofocus
+                   ng-model="loginCtrl.username"
+                   placeholder="Username"/>
+            <input class="form-control"
+                   type="password"
+                   placeholder="Password"/>
+        </div>
+        <md-button type="submit">Login</md-button>
+    </form>
+</md-content>

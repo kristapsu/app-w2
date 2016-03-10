@@ -1,76 +1,10 @@
-<!DOCTYPE html5>
-
+<!DOCTYPE html>
 <html ng-app="firstApp">
   <head>
-    <meta charset="utf-8">
-    <title>site</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+      <meta charset="utf-8">
   </head>
-  <body ng-controller="MainController as mainCtrl">
-    <md-content>
-      <md-toolbar>
-          <h1>
-            <a href="#">
-              <span>MyFacebook</span>
-              <span ng-if="mainCtrl.hasUser()"> - {{mainCtrl.getUsername()}}</span>
-            </a>
-          </h1>
-          <md-button type="button" ng-if="mainCtrl.hasUser()" ng-click="mainCtrl.removeUser()">Logout</md-button>
-      </md-toolbar>
-    <md-content>
-
-    <div id="guest-space" class="container" ng-if="!mainCtrl.hasUser()" ng-controller="LoginController as loginCtrl">
-      <p>LOGIN FIRST</p>
-      <form name="userForm" ng-submit="loginCtrl.login()">
-        <div class="form-group">
-          <input class="form-control" type="text" required autofocus ng-model="loginCtrl.username" placeholder="Username">
-          <input class="form-control" type="password" placeholder="Password">
-        </div>
-        <button class="btn btn-default" type="submit">LOGIN</button>
-      </form>
-    </div>
-    <!-- ng-if="mainCtrl.hasUser()" will work if it has user -->
-    <div id="user-space" class="container" ng-if="mainCtrl.hasUser()" ng-controller="UserController as userCtrl">
-      <form name="statusForm" ng-submit="userCtrl.setStatus()">
-        <!-- "required" input field must be filled-->
-        <div class="form-group">
-          <input class="form-control" type="text" required ng-model="userCtrl.message" placeholder="Sveiki!">
-          <!-- <input class="form-control" type="date" ng-model="userCtrl.date" required ng-model="userCtrl.message" placeholder="Sveiki!">  (To set date)-->
-        </div>
-        <button class="btn btn-default" type="submit">Set Status</button>
-      <form>
-      <hr>
-
-      <!-- <div ng-repeat="fruit in fruit_array">{{element}}</div> -->
-      <article style="float: left;" ng-controller="StatusController as statusCtrl">
-        <!-- | orderBy:'-date' we pipe it to sort order by date -->
-        <!-- "track by" - asigns unique field to elements, that binds them togeather -->
-        <!-- old one <section ng-repeat="user in statusCtrl.statuses | orderBy:'-date' track by status.id"> -->
-        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderUsers:'statusList' track by user.name">
-          <header>
-            <h4>{{user.name}}</h4>
-            <!-- add filters "|", just like piping in unix console -->
-            <span>{{user.date | date}}</span>
-          </header>
-          <br>
-          <div>{{user.message}}</div>
-          <hr/>
-        </section>
-      </article>
-
-      <article style="float: right;" ng-controller="StatusController as statusCtrl">
-        <section ng-repeat="status in statusCtrl.statuses">
-          <header>
-            <h4>{{status.user}}</h4>
-          </header>
-          <br>
-          <textarea ng-model="status.message"></textarea>
-          <hr/>
-        </section>
-      </article>
-    </div>
-
-
+  <body>
+    <ui-view></ui-view>
     <script src="bundle.js"></script>
   </body>
 </html>

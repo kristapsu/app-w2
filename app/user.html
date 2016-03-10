@@ -1,0 +1,20 @@
+<md-content id="user-space">
+    <form name="statusForm"
+          ng-submit="userCtrl.setStatus()">
+        <div class="form-group">
+            <input class="form-control" type="text" required ng-model="userCtrl.message" placeholder="E.g. 'HELLO FRIENDS!'"/>
+        </div>
+        <button class="btn btn-default" type="submit">Set status</button>
+    </form>
+    <hr/>
+    <article ng-controller="StatusController as statusCtrl">
+        <section ng-if="!!user.name" ng-repeat="user in statusCtrl.users | orderUsers:'statusList' track by user.name">
+            <header>
+                <h4>{{user.name}}</h4>
+                <span>{{user.date | date}}</span>
+            </header>
+            <div>{{user.message}}</div>
+            <hr>
+        </section>
+    </article>
+</md-content>
